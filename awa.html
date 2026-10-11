@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="泡 AWA — сеть японских бабл-ти баров в Минске. Чай матча, тапиока ручной работы, авторские напитки в атмосфере ваби-саби." />
+<meta name="theme-color" content="#F5F0E8" />
+<title>泡 AWA — японский бабл-ти бар в Минске</title>
+
+<meta property="og:title" content="泡 AWA — японский бабл-ти бар" />
+<meta property="og:description" content="Сеть бабл-ти баров в Минске. Чай матча, тапиока ручной работы, авторские напитки." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://images.unsplash.com/photo-1558853776-a9bc6ce78dd6?w=1200" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "泡 AWA",
+  "description": "Сеть японских бабл-ти баров в Минске",
+  "servesCuisine": "Японский бабл-ти, матча, тапиока",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Минск",
+    "addressCountry": "BY"
+  },
+  "priceRange": "$$",
+  "openingHours": "Mo-Su 10:00-22:00"
+}
+</script>
+
+<style>
+/* ================= TOKENS ================= */
+:root {
+  --c-bg: #F5F0E8;
+  --c-bg-2: #EDE5D6;
+  --c-ink: #1F1A14;
+  --c-ink-2: #3D3428;
+  --c-muted: #8C7E6B;
+  --c-matcha: #6B8E4E;
+  --c-matcha-deep: #4A6B33;
+  --c-coral: #E89878;
+  --c-coral-deep: #C96F4E;
+  --c-cream: #FDF9F1;
+  --c-line: rgba(31, 26, 20, 0.12);
+
+  --ff-serif: 'Shippori Mincho', 'Times New Roman', serif;
+  --ff-sans: 'DM Sans', system-ui, sans-serif;
+  --ff-jp: 'Zen Maru Gothic', sans-serif;
+
+  --r-sm: 8px;
+  --r-md: 16px;
+  --r-lg: 32px;
+  --r-xl: 64px;
+
+  --container: 1440px;
+  --px: clamp(20px, 4vw, 64px);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+[data-theme="dark"] {
+  --c-bg: #16120D;
+  --c-bg-2: #1F1A14;
+  --c-ink: #F5F0E8;
+  --c-ink-2: #D9CEBC;
+  --c-muted: #A69882;
+  --c-line: rgba(245, 240, 232, 0.14);
+  --c-cream: #241E17;
+}
+
+/* ================= RESET ================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: auto; }
+body {
+  font-family: var(--ff-sans);
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.6s var(--ease), color 0.6s var(--ease);
+  cursor: none;
+}
+
+img, svg { display: block; max-width: 100%; height: auto; }
+button { font-family: inherit; cursor: none; border: none; background: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+input, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+
+::selection { background: var(--c-coral); color: var(--c-cream); }
+
+/* ================= CURSOR ================= */
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 14px; height: 14px;
+  background: var(--c-coral);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s var(--ease), height 0.25s var(--ease), background 0.25s var(--ease);
+}
+.cursor.cursor-grow { width: 56px; height: 56px; background: var(--c-coral-deep); }
+.cursor.cursor-drag { width: 120px; height: 120px; background: var(--c-matcha); }
+@media (max-width: 768px) {
+  .cursor { display: none; }
+  body { cursor: auto; }
+  button, a, input, textarea { cursor: pointer; }
+}
+
+/* ================= PRELOADER ================= */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--c-bg);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+  transition: opacity 0.8s var(--ease), visibility 0.8s var(--ease);
+}
+.preloader.done { opacity: 0; visibility: hidden; }
+.preloader-logo {
+  font-family: var(--ff-serif);
+  font-size: clamp(48px, 10vw, 96px);
+  font-weight: 700;
+  color: var(--c-ink);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: logoIn 1.2s var(--ease) 0.3s forwards;
+}
+.preloader-bubble {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--c-coral);
+  opacity: 0;
+  animation: bubbleIn 1.2s var(--ease) 0.8s forwards, bubblePulse 1.4s var(--ease) 1.2s infinite;
+}
+.preloader-line {
+  width: 160px; height: 2px;
+  background: var(--c-line);
+  overflow: hidden;
+  opacity: 0;
+  animation: lineIn 0.6s var(--ease) 1.4s forwards;
+}
+.preloader-line::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: var(--c-coral);
+  animation: lineFill 2s var(--ease) 1.6s forwards;
+}
+@keyframes logoIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes bubbleIn { to { opacity: 1; } }
+@keyframes bubblePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+@keyframes lineIn { to { opacity: 1; } }
+@keyframes lineFill { from { width: 0; } to { width: 100%; } }
+
+/* ================= BACKGROUND BUBBLES ================= */
+.bubbles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), var(--c-coral) 50%, var(--c-coral-deep) 100%);
+  box-shadow: inset -6px -6px 20px rgba(0,0,0,0.15), 0 0 40px rgba(232, 152, 120, 0.15);
+  opacity: 0.5;
+  animation: rise linear infinite;
+  will-change: transform;
+}
+.bubble.matcha {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), var(--c-matcha) 50%, var(--c-matcha-deep) 100%);
+  box-shadow: inset -6px -6px 20px rgba(0,0,0,0.15), 0 0 40px rgba(107, 142, 78, 0.2);
+}
+.bubble.cream {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), #F5E9D4 50%, #D9C9A8 100%);
+  box-shadow: inset -6px -6px 20px rgba(0,0,0,0.1), 0 0 40px rgba(255,255,255,0.2);
+}
+@keyframes rise {
+  0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+  10% { opacity: 0.7; }
+  50% { transform: translateY(-50vh) translateX(40px) scale(1); }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-110vh) translateX(-40px) scale(0.8); opacity: 0; }
+}
+
+/* ================= GRAIN ================= */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* ================= LAYOUT ================= */
+.wrap { max-width: var(--container); margin: 0 auto; padding: 0 var(--px); }
+section { position: relative; z-index: 2; padding: clamp(80px, 12vw, 160px) 0; }
+
+/* ================= NAV ================= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 24px var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s var(--ease), backdrop-filter 0.4s var(--ease), padding 0.4s var(--ease);
+}
+.nav.scrolled {
+  background: color-mix(in srgb, var(--c-bg) 85%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 16px var(--px);
+  border-bottom: 1px solid var(--c-line);
+}
+.nav-logo {
+  font-family: var(--ff-serif);
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  letter-spacing: -0.02em;
+}
+.nav-logo .jp { font-size: 36px; color: var(--c-coral); }
+.nav-menu {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  align-items: center;
+}
+.nav-link {
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 8px 0;
+  transition: color 0.3s var(--ease);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0; height: 1px;
+  background: var(--c-coral);
+  transition: width 0.4s var(--ease);
+}
+.nav-link:hover::after { width: 100%; }
+.nav-right { display: flex; align-items: center; gap: 24px; }
+.theme-toggle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--c-line);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s var(--ease);
+}
+.theme-toggle:hover { background: var(--c-ink); color: var(--c-bg); transform: rotate(180deg); }
+
+.burger {
+  display: none;
+  width: 44px; height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+}
+.burger span {
+  display: block;
+  height: 2px;
+  background: var(--c-ink);
+  transition: all 0.4s var(--ease);
+}
+.burger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--c-bg);
+  z-index: 99;
+  padding: 120px var(--px) 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transform: translateX(100%);
+  transition: transform 0.6s var(--ease);
+}
+.mobile-menu.open { transform: translateX(0); }
+.mobile-menu a {
+  font-family: var(--ff-serif);
+  font-size: clamp(32px, 8vw, 56px);
+  font-weight: 500;
+  border-bottom: 1px solid var(--c-line);
+  padding: 20px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.mobile-menu a .num { font-size: 14px; color: var(--c-muted); font-family: var(--ff-sans); }
+
+/* ================= HERO ================= */
+.hero {
+  min-height: 100vh;
+  padding-top: 140px;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hero-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 80px;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid var(--c-line);
+  border-radius: 100px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+.hero-tag-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-matcha);
+  animation: dotPulse 2s var(--ease) infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero-meta {
+  text-align: right;
+  font-size: 13px;
+  color: var(--c-muted);
+  line-height: 1.6;
+  font-family: var(--ff-jp);
+}
+.hero-meta strong { color: var(--c-ink); display: block; font-weight: 500; }
+
+.hero-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(72px, 18vw, 280px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  margin-bottom: 60px;
+}
+.hero-title .word { display: inline-block; overflow: hidden; vertical-align: top; }
+.hero-title .word span { display: inline-block; }
+.hero-title .jp {
+  font-family: var(--ff-jp);
+  color: var(--c-coral);
+  font-weight: 400;
+  font-size: 0.6em;
+  margin-right: 0.15em;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--c-matcha-deep);
+}
+
+.hero-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  align-items: end;
+}
+.hero-desc {
+  max-width: 440px;
+  font-size: clamp(15px, 1.1vw, 17px);
+  color: var(--c-ink-2);
+  line-height: 1.7;
+}
+.hero-desc strong { color: var(--c-ink); font-weight: 500; }
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 32px;
+  background: var(--c-ink);
+  color: var(--c-bg);
+  border-radius: 100px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.4s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+.hero-cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--c-coral);
+  transform: translateY(100%);
+  transition: transform 0.5s var(--ease);
+}
+.hero-cta > * { position: relative; z-index: 1; }
+.hero-cta:hover::before { transform: translateY(0); }
+.hero-cta:hover .hero-cta-arrow { transform: translateX(6px); }
+.hero-cta-arrow { transition: transform 0.4s var(--ease); }
+
+.hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: right;
+}
+.hero-stat-num {
+  font-family: var(--ff-serif);
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--c-ink);
+  letter-spacing: -0.02em;
+}
+.hero-stat-num span { color: var(--c-coral); }
+.hero-stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-muted);
+}
+
+/* ================= MARQUEE ================= */
+.marquee {
+  overflow: hidden;
+  padding: 40px 0;
+  border-top: 1px solid var(--c-line);
+  border-bottom: 1px solid var(--c-line);
+  position: relative;
+  z-index: 2;
+}
+.marquee-track {
+  display: flex;
+  gap: 80px;
+  white-space: nowrap;
+  animation: marquee 40s linear infinite;
+  font-family: var(--ff-serif);
+  font-size: clamp(40px, 7vw, 96px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+}
+.marquee-item::after {
+  content: '';
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--c-coral);
+  flex-shrink: 0;
+}
+.marquee-item em { font-style: italic; color: var(--c-matcha-deep); font-weight: 400; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ================= ABOUT (BENTO) ================= */
+.section-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+.section-num {
+  font-family: var(--ff-serif);
+  font-size: 14px;
+  color: var(--c-muted);
+  letter-spacing: 0.1em;
+}
+.section-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(48px, 8vw, 112px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+.section-title em { font-style: italic; color: var(--c-coral-deep); font-weight: 400; }
+.section-title .jp { font-family: var(--ff-jp); color: var(--c-matcha-deep); }
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(140px, auto);
+  gap: 16px;
+}
+.bento-item {
+  border-radius: var(--r-md);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.6s var(--ease);
+}
+.bento-item:hover { transform: translateY(-4px); }
+
+.bento-1 { grid-column: span 3; grid-row: span 2; background: var(--c-ink); color: var(--c-bg); padding: 48px; display: flex; flex-direction: column; justify-content: space-between; }
+.bento-1 h3 { font-family: var(--ff-serif); font-size: clamp(32px, 3.5vw, 48px); font-weight: 500; line-height: 1; letter-spacing: -0.02em; margin-bottom: 16px; }
+.bento-1 p { max-width: 380px; color: var(--c-bg-2); line-height: 1.7; font-size: 15px; }
+.bento-1 .jp-big {
+  font-family: var(--ff-jp);
+  font-size: clamp(120px, 18vw, 240px);
+  color: var(--c-coral);
+  line-height: 0.8;
+  position: absolute;
+  right: -20px; bottom: -20px;
+  opacity: 0.3;
+  font-weight: 500;
+}
+
+.bento-2 { grid-column: span 3; grid-row: span 1; background: var(--c-matcha); color: var(--c-bg); }
+.bento-3 { grid-column: span 3; grid-row: span 1; background: var(--c-coral); color: var(--c-ink); }
+.bento-2, .bento-3 { display: flex; flex-direction: column; justify-content: space-between; }
+.bento-2 h4, .bento-3 h4 { font-family: var(--ff-serif); font-size: 28px; font-weight: 500; letter-spacing: -0.02em; }
+.bento-2 p, .bento-3 p { font-size: 14px; line-height: 1.6; opacity: 0.9; max-width: 300px; }
+
+.bento-4 { grid-column: span 2; grid-row: span 1; background: var(--c-cream); border: 1px solid var(--c-line); text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.bento-4 .big { font-family: var(--ff-serif); font-size: clamp(48px, 6vw, 80px); font-weight: 500; color: var(--c-coral-deep); line-height: 1; letter-spacing: -0.02em; }
+.bento-4 .sm { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-muted); margin-top: 8px; }
+
+.bento-5 { grid-column: span 2; grid-row: span 1; background: var(--c-bg-2); border: 1px solid var(--c-line); }
+.bento-5 .big { font-family: var(--ff-serif); font-size: 24px; font-weight: 500; margin-bottom: 8px; }
+.bento-5 .sm { font-size: 13px; color: var(--c-muted); line-height: 1.6; }
+
+.bento-6 { grid-column: span 2; grid-row: span 1; background: url('https://images.unsplash.com/photo-1558853776-a9bc6ce78dd6?w=800') center/cover; display: flex; align-items: flex-end; color: var(--c-cream); }
+.bento-6::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7) 100%); border-radius: var(--r-md); }
+.bento-6 span { position: relative; font-size: 13px; font-weight: 500; letter-spacing: 0.02em; }
+
+/* ================= MENU ================= */
+.menu-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--c-line);
+  padding-bottom: 16px;
+}
+.menu-cat {
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--c-line);
+  transition: all 0.3s var(--ease);
+}
+.menu-cat:hover { border-color: var(--c-ink); }
+.menu-cat.active { background: var(--c-ink); color: var(--c-bg); border-color: var(--c-ink); }
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.menu-card {
+  position: relative;
+  padding: 32px;
+  background: var(--c-cream);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-line);
+  transition: all 0.5s var(--ease);
+  overflow: hidden;
+}
+.menu-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--c-coral);
+  box-shadow: 0 20px 60px -20px rgba(31, 26, 20, 0.2);
+}
+.menu-card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--r-md);
+  background: var(--c-bg-2);
+  margin-bottom: 24px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-card-img::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 70%, var(--c-coral) 0%, transparent 60%);
+  opacity: 0.3;
+}
+.menu-card-img .cup {
+  width: 60%;
+  height: 80%;
+  background: linear-gradient(180deg, var(--c-cream) 0%, var(--c-bg-2) 100%);
+  border-radius: 0 0 20px 20px / 0 0 30px 30px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--c-ink);
+}
+.menu-card-img .cup::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 70%;
+  background: linear-gradient(180deg, var(--c-matcha) 0%, var(--c-matcha-deep) 100%);
+  border-radius: 0 0 18px 18px;
+}
+.menu-card-img .bubble-small {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--c-ink);
+  box-shadow: inset -1px -1px 4px rgba(255,255,255,0.2);
+}
+.menu-card-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-matcha-deep);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.menu-card h3 {
+  font-family: var(--ff-serif);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.menu-card p {
+  font-size: 14px;
+  color: var(--c-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.menu-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--c-line);
+}
+.menu-card-price {
+  font-family: var(--ff-serif);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.menu-card-add {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--c-ink);
+  color: var(--c-bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s var(--ease);
+}
+.menu-card-add:hover { background: var(--c-coral); transform: rotate(90deg); }
+
+/* ================= LOCATIONS ================= */
+.locs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.loc-card {
+  padding: 40px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  background: var(--c-cream);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s var(--ease);
+}
+.loc-card:hover { border-color: var(--c-coral); }
+.loc-card::before {
+  content: '';
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--c-matcha);
+  box-shadow: 0 0 0 0 var(--c-matcha);
+  animation: locPulse 2s infinite;
+}
+@keyframes locPulse {
+  0% { box-shadow: 0 0 0 0 rgba(107, 142, 78, 0.7); }
+  70% { box-shadow: 0 0 0 14px rgba(107, 142, 78, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(107, 142, 78, 0); }
+}
+.loc-num { font-family: var(--ff-serif); font-size: 14px; color: var(--c-muted); letter-spacing: 0.1em; margin-bottom: 16px; }
+.loc-card h3 { font-family: var(--ff-serif); font-size: clamp(28px, 3vw, 40px); font-weight: 500; line-height: 1; letter-spacing: -0.02em; margin-bottom: 12px; }
+.loc-address { font-size: 14px; color: var(--c-muted); margin-bottom: 20px; line-height: 1.6; }
+.loc-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.loc-info-row { display: flex; gap: 12px; font-size: 13px; }
+.loc-info-row span:first-child { color: var(--c-muted); width: 80px; flex-shrink: 0; }
+.loc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid var(--c-ink);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s var(--ease);
+}
+.loc-btn:hover { background: var(--c-ink); color: var(--c-bg); }
+
+/* ================= PROCESS ================= */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  position: relative;
+}
+.process-grid::before {
+  content: '';
+  position: absolute;
+  top: 48px; left: 8%; right: 8%;
+  height: 1px;
+  background: var(--c-line);
+  z-index: 0;
+}
+.process-step { position: relative; z-index: 1; }
+.process-num {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 1px solid var(--c-line);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-serif);
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--c-coral);
+  margin-bottom: 24px;
+  transition: all 0.4s var(--ease);
+}
+.process-step:hover .process-num {
+  background: var(--c-coral);
+  color: var(--c-bg);
+  border-color: var(--c-coral);
+  transform: scale(1.08);
+}
+.process-step h4 { font-family: var(--ff-serif); font-size: 22px; font-weight: 500; margin-bottom: 8px; letter-spacing: -0.01em; }
+.process-step p { font-size: 14px; color: var(--c-muted); line-height: 1.6; }
+.process-step .jp { font-family: var(--ff-jp); color: var(--c-matcha-deep); font-size: 14px; display: block; margin-bottom: 4px; }
+
+/* ================= FAQ ================= */
+.faq-list { display: flex; flex-direction: column; gap: 0; }
+.faq-item {
+  border-bottom: 1px solid var(--c-line);
+  padding: 32px 0;
+  cursor: none;
+}
+.faq-q {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+  text-align: left;
+}
+.faq-q h3 { font-family: var(--ff-serif); font-size: clamp(22px, 2.4vw, 32px); font-weight: 500; letter-spacing: -0.01em; }
+.faq-q .faq-toggle {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--c-line);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.4s var(--ease);
+  flex-shrink: 0;
+}
+.faq-item:hover .faq-toggle { border-color: var(--c-coral); color: var(--c-coral); }
+.faq-toggle svg { transition: transform 0.4s var(--ease); }
+.faq-item.open .faq-toggle { background: var(--c-ink); color: var(--c-bg); border-color: var(--c-ink); }
+.faq-item.open .faq-toggle svg { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--ease), padding 0.6s var(--ease);
+}
+.faq-item.open .faq-a {
+  max-height: 200px;
+  padding-top: 20px;
+}
+.faq-a p {
+  max-width: 720px;
+  color: var(--c-muted);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ================= CONTACT ================= */
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+.contact-left h2 {
+  font-family: var(--ff-serif);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 32px;
+}
+.contact-left h2 em { font-style: italic; color: var(--c-coral); font-weight: 400; }
+.contact-left p { max-width: 400px; color: var(--c-muted); line-height: 1.7; margin-bottom: 32px; }
+.contact-info { display: flex; flex-direction: column; gap: 16px; }
+.contact-info-item { display: flex; gap: 16px; font-size: 14px; align-items: center; }
+.contact-info-item svg { flex-shrink: 0; color: var(--c-coral); }
+.contact-info-item strong { display: block; color: var(--c-ink); font-weight: 500; }
+.contact-info-item span { color: var(--c-muted); font-size: 13px; }
+
+.contact-form {
+  background: var(--c-cream);
+  padding: 48px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-line);
+}
+.form-group { margin-bottom: 24px; position: relative; }
+.form-label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-bottom: 8px;
+}
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 16px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--c-line);
+  font-size: 16px;
+  transition: border-color 0.3s var(--ease);
+  outline: none;
+  resize: none;
+}
+.form-input:focus, .form-textarea:focus { border-bottom-color: var(--c-coral); }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--c-muted); }
+.form-textarea { min-height: 80px; }
+.form-error {
+  display: block;
+  color: var(--c-coral-deep);
+  font-size: 12px;
+  margin-top: 6px;
+  min-height: 16px;
+}
+.form-submit {
+  width: 100%;
+  padding: 20px 32px;
+  background: var(--c-ink);
+  color: var(--c-bg);
+  border-radius: 100px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-size: 15px;
+  transition: all 0.4s var(--ease);
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.form-submit:hover { background: var(--c-coral); transform: translateY(-2px); }
+.form-success {
+  display: none;
+  padding: 20px;
+  background: var(--c-matcha);
+  color: var(--c-bg);
+  border-radius: var(--r-md);
+  text-align: center;
+  font-weight: 500;
+  margin-top: 16px;
+}
+.form-success.show { display: block; animation: slideDown 0.5s var(--ease); }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--c-line);
+  position: relative;
+  z-index: 2;
+  background: var(--c-bg);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 64px;
+}
+.footer-brand .logo {
+  font-family: var(--ff-serif);
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.footer-brand .logo .jp { color: var(--c-coral); }
+.footer-brand p { max-width: 320px; color: var(--c-muted); font-size: 14px; line-height: 1.7; }
+
+.footer-col h4 {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a {
+  font-size: 14px;
+  transition: color 0.3s var(--ease);
+}
+.footer-col a:hover { color: var(--c-coral); }
+
+.footer-bottom {
+  padding-top: 32px;
+  border-top: 1px solid var(--c-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--c-muted);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* ================= ANIMATIONS (REVEAL) ================= */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+.reveal-left.in { opacity: 1; transform: translateX(0); }
+.stagger > * { opacity: 0; transform: translateY(20px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+.stagger.in > * { opacity: 1; transform: translateY(0); }
+.stagger.in > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger.in > *:nth-child(2) { transition-delay: 0.1s; }
+.stagger.in > *:nth-child(3) { transition-delay: 0.15s; }
+.stagger.in > *:nth-child(4) { transition-delay: 0.2s; }
+.stagger.in > *:nth-child(5) { transition-delay: 0.25s; }
+.stagger.in > *:nth-child(6) { transition-delay: 0.3s; }
+.stagger.in > *:nth-child(7) { transition-delay: 0.35s; }
+.stagger.in > *:nth-child(8) { transition-delay: 0.4s; }
+.stagger.in > *:nth-child(9) { transition-delay: 0.45s; }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid::before { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 48px; }
+}
+
+@media (max-width: 768px) {
+  .nav-menu { display: none; }
+  .burger { display: flex; }
+  .hero-top { grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+  .hero-meta { text-align: left; }
+  .hero-bottom { grid-template-columns: 1fr; gap: 32px; }
+  .hero-stats { text-align: left; flex-direction: row; justify-content: space-between; }
+  .section-header { grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px; }
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .bento-1, .bento-2, .bento-3, .bento-4, .bento-5, .bento-6 { grid-column: span 2; grid-row: span 1; min-height: 200px; }
+  .bento-1 { min-height: 320px; }
+  .locs-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .contact-form { padding: 32px 24px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .bento { grid-template-columns: 1fr; }
+  .bento-1, .bento-2, .bento-3, .bento-4, .bento-5, .bento-6 { grid-column: span 1; }
+  .hero-stats { flex-direction: column; gap: 16px; }
+}
+
+/* ================= REDUCED MOTION ================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .bubble { display: none; }
+  .marquee-track { animation: none; }
+}
+
+/* ================= FOCUS ================= */
+:focus-visible {
+  outline: 2px solid var(--c-coral);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+button:focus-visible, a:focus-visible { outline-offset: 4px; }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+
+<!-- GRAIN -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-logo">泡 AWA</div>
+  <div class="preloader-bubble"></div>
+  <div class="preloader-line"></div>
+</div>
+
+<!-- BACKGROUND BUBBLES -->
+<div class="bubbles" id="bubbles" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo" aria-label="泡 AWA — на главную">
+    <span class="jp">泡</span><span>AWA</span>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="#about" class="nav-link">Философия</a></li>
+    <li><a href="#menu" class="nav-link">Меню</a></li>
+    <li><a href="#process" class="nav-link">Процесс</a></li>
+    <li><a href="#locations" class="nav-link">Локации</a></li>
+    <li><a href="#faq" class="nav-link">Вопросы</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+      <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+    </button>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="#about"><span class="num">01</span>Философия</a>
+  <a href="#menu"><span class="num">02</span>Меню</a>
+  <a href="#process"><span class="num">03</span>Процесс</a>
+  <a href="#locations"><span class="num">04</span>Локации</a>
+  <a href="#faq"><span class="num">05</span>Вопросы</a>
+  <a href="#contact"><span class="num">06</span>Контакты</a>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top reveal">
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        <span>Открыто сейчас · 4 локации в Минске</span>
+      </div>
+      <div class="hero-meta">
+        <strong>京都から、愛を込めて</strong>
+        Из Киото — с любовью<br>с 2021 года
+      </div>
+    </div>
+
+    <h1 class="hero-title stagger">
+      <span class="word"><span class="jp">茶</span></span><br>
+      <span class="word"><span>Тишина</span></span><br>
+      <span class="word"><span><em>в&nbsp;каждом</em></span></span><br>
+      <span class="word"><span>пузырьке.</span></span>
+    </h1>
+
+    <div class="hero-bottom stagger">
+      <p class="hero-desc">
+        <strong>泡 AWA</strong> — сеть бабл-ти баров в эстетике японской чайной церемонии. 
+        Мы готовим тапиоку вручную каждое утро, завариваем матча из Uji и подаём 
+        напитки в атмосфере ваби-саби. Без спешки. Без сиропов. Только чай, молоко и время.
+      </p>
+
+      <a href="#menu" class="hero-cta" data-magnetic>
+        <span>Смотреть меню</span>
+        <svg class="hero-cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-counter="4">0<span>+</span></div>
+          <div class="hero-stat-label">Локации</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-counter="32">0</div>
+          <div class="hero-stat-label">Рецепта</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-counter="120">0</div>
+          <div class="hero-stat-label">Тысяч гостей</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-item">Матча из <em>Uji</em></div>
+    <div class="marquee-item">Тапиока ручной работы</div>
+    <div class="marquee-item">Молоко <em>A2</em></div>
+    <div class="marquee-item">Без сахара</div>
+    <div class="marquee-item">泡 AWA</div>
+    <div class="marquee-item">Матча из <em>Uji</em></div>
+    <div class="marquee-item">Тапиока ручной работы</div>
+    <div class="marquee-item">Молоко <em>A2</em></div>
+    <div class="marquee-item">Без сахара</div>
+    <div class="marquee-item">泡 AWA</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <div class="section-num">[ 01 ] Философия</div>
+      <h2 class="section-title">Чай как <em>медитация</em>,<br>а не напиток <span class="jp">一期一会</span></h2>
+    </div>
+
+    <div class="bento">
+      <article class="bento-item bento-1 reveal">
+        <div>
+          <h3>Мы варим тапиоку с 6 утра.<br>Каждый день. Вручную.</h3>
+          <p>Большинство бабл-ти используют готовые шарики из пакетов. Мы делаем по старому тайваньскому рецепту — из муки тапиоки, коричневого сахара и 40 минут помешивания. Разница чувствуется с первого пузырька.</p>
+        </div>
+        <div class="jp-big" aria-hidden="true">心</div>
+      </article>
+
+      <article class="bento-item bento-2 reveal">
+        <h4>Матча из Uji</h4>
+        <p>Мы работаем напрямую с фермой Marukyu Koyamaen в Киото. Церемониальный сорт, не кулинарный. Это видно по цвету и чувствуется по послевкусию.</p>
+      </article>
+
+      <article class="bento-item bento-3 reveal">
+        <h4>Молоко A2</h4>
+        <p>От белорусских ферм. Без гормонов, без гомогенизации. Подходит тем, кого обычное молоко раздражает. Мы за честный вкус.</p>
+      </article>
+
+      <article class="bento-item bento-4 reveal">
+        <div class="big">0<span style="font-size:0.5em; color: var(--c-muted);">г</span></div>
+        <div class="sm">Сахара в базовых</div>
+      </article>
+
+      <article class="bento-item bento-5 reveal">
+        <div class="big">72 часа</div>
+        <div class="sm">Максимальный срок годности нашей тапиоки. Дальше — только выбрасывать.</div>
+      </article>
+
+      <article class="bento-item bento-6 reveal">
+        <span>Фото нашего бариста Киёси · 京都</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <div class="section-num">[ 02 ] Меню</div>
+      <h2 class="section-title">Авторские <em>рецепты</em><br>на каждый сезон <span class="jp">味</span></h2>
+    </div>
+
+    <div class="menu-categories reveal">
+      <button class="menu-cat active" data-cat="all">Все</button>
+      <button class="menu-cat" data-cat="classic">Классика</button>
+      <button class="menu-cat" data-cat="matcha">Матча</button>
+      <button class="menu-cat" data-cat="fruit">Фрукты</button>
+      <button class="menu-cat" data-cat="winter">Зимние</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+      <article class="menu-card reveal" data-cat="matcha">
+        <div class="menu-card-img">
+          <div class="cup"></div>
+          <div class="bubble-small" style="width:18px;height:18px; top:45%; left:30%;"></div>
+          <div class="bubble-small" style="width:14px;height:14px; top:55%; left:55%;"></div>
+          <div class="bubble-small" style="width:20px;height:20px; top:65%; left:42%;"></div>
+        </div>
+        <span class="menu-card-tag">Матча · Kyoto</span>
+        <h3>Uji Ceremony</h3>
+        <p>Церемониальная матча, взбитая тёплым молоком A2. Тапиока в карамели из кокосового сахара.</p>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">12 BYN</span>
+          <button class="menu-card-add" aria-label="Добавить Uji Ceremony">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="menu-card reveal" data-cat="classic">
+        <div class="menu-card-img">
+          <div class="cup" style="background: linear-gradient(180deg, #8B6F47 0%, #4A3824 100%);"></div>
+          <div class="bubble-small" style="width:20px;height:20px; top:40%; left:35%;"></div>
+          <div class="bubble-small" style="width:16px;height:16px; top:60%; left:55%;"></div>
+          <div class="bubble-small" style="width:18px;height:18px; top:55%; left:40%;"></div>
+        </div>
+        <span class="menu-card-tag">Классика</span>
+        <h3>Brown Sugar Pearl</h3>
+        <p>Чёрный чай ассам, тёплое молоко, тигровый сироп из коричневого сахара. Тапиока варится 40 минут.</p>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">10 BYN</span>
+          <button class="menu-card-add" aria-label="Добавить Brown Sugar Pearl">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="menu-card reveal" data-cat="fruit">
+        <div class="menu-card-img">
+          <div class="cup" style="background: linear-gradient(180deg, #F5C7A8 0%, #E89878 100%);"></div>
+          <div class="bubble-small" style="width:22px;height:22px; top:45%; left:32%;"></div>
+          <div class="bubble-small" style="width:16px;height:16px; top:60%; left:55%;"></div>
+        </div>
+        <span class="menu-card-tag">Фрукты · Сезон</span>
+        <h3>Yuzu Peach</h3>
+        <p>Зелёный улун, пюре белого персика, сироп юзу. Подаётся со взрывной тапикой из личи.</p>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">13 BYN</span>
+          <button class="menu-card-add" aria-label="Добавить Yuzu Peach">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="menu-card reveal" data-cat="matcha">
+        <div class="menu-card-img">
+          <div class="cup" style="background: linear-gradient(180deg, #D9E8C9 0%, #6B8E4E 100%);"></div>
+          <div class="bubble-small" style="width:18px;height:18px; top:50%; left:40%;"></div>
+          <div class="bubble-small" style="width:14px;height:14px; top:62%; left:55%;"></div>
+        </div>
+        <span class="menu-card-tag">Матча · Холодный</span>
+        <h3>Hojicha Latte</h3>
+        <p>Обжаренный зелёный чай ходзитя, ореховый и карамельный. На холодном овсяном молоке.</p>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">11 BYN</span>
+          <button class="menu-card-add" aria-label="Добавить Hojicha Latte">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="menu-card reveal" data-cat="winter">
+        <div class="menu-card-img">
+          <div class="cup" style="background: linear-gradient(180deg, #F5D4A8 0%, #C99868 100%);"></div>
+          <div class="bubble-small" style="width:20px;height:20px; top:42%; left:38%;"></div>
+          <div class="bubble-small" style="width:16px;height:16px; top:58%; left:52%;"></div>
+        </div>
+        <span class="menu-card-tag">Зимний · Hot</span>
+        <h3>Kinako Mochi</h3>
+        <p>Горячий улун, мука кинако из обжаренного риса, мёд, тапиока и мини-моти внутри.</p>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">14 BYN</span>
+          <button class="menu-card-add" aria-label="Добавить Kinako Mochi">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="menu-card reveal" data-cat="fruit">
+        <div class="menu-card-img">
+          <div class="cup" style="background: linear-gradient(180deg, #E8D4F5 0%, #9B6BC9 100%);"></div>
+          <div class="bubble-small" style="width:18px;height:18px; top:48%; left:35%;"></div>
+          <div class="bubble-small" style="width:20px;height:20px; top:62%; left:55%;"></div>
+        </div>
+        <span class="menu-card-tag">Фрукты · Холодный</span>
+        <h3>Taro Cloud</h3>
+        <p>Настоящий корень таро, а не порошок. Густой кремовый вкус с оттенками ванили и кокоса.</p>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">13 BYN</span>
+          <button class="menu-card-add" aria-label="Добавить Taro Cloud">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <div class="section-num">[ 03 ] Процесс</div>
+      <h2 class="section-title">Как рождается<br>один <em>стакан</em></h2>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="process-num">01</div>
+        <span class="jp">準備</span>
+        <h4>Подготовка</h4>
+        <p>В 6 утра шеф-бариста варит тапиоку на весь день. Если не доварили — выбрасываем.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">02</div>
+        <span class="jp">点前</span>
+        <h4>Взбивание</h4>
+        <p>Матчу взбиваем венчиком тясэн в чаше чаван — как это делают в Киото с XII века.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">03</div>
+        <span class="jp">層</span>
+        <h4>Сборка</h4>
+        <p>Слои выкладываем в определённом порядке: тапиока, сироп, чай, молоко, лёд.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">04</div>
+        <span class="jp">完成</span>
+        <h4>Подача</h4>
+        <p>Подаём в керамическом стакане ручной работы. Без крышки — чтобы услышать бульканье.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section id="locations">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <div class="section-num">[ 04 ] Локации</div>
+      <h2 class="section-title">Четыре <em>дома</em><br>в Минске</h2>
+    </div>
+
+    <div class="locs-grid">
+      <article class="loc-card reveal">
+        <div class="loc-num">泡 01</div>
+        <h3>Немига</h3>
+        <p class="loc-address">ул. Немига, 14 · первый этаж ЖК «Маяк Минска»</p>
+        <div class="loc-info">
+          <div class="loc-info-row"><span>Часы</span><span>Пн–Вс · 10:00 – 22:00</span></div>
+          <div class="loc-info-row"><span>Телефон</span><span>+375 29 611 22 01</span></div>
+          <div class="loc-info-row"><span>Wi-Fi</span><span>awa_nemiga · без пароля</span></div>
+        </div>
+        <a href="#contact" class="loc-btn">
+          Забронировать столик
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+
+      <article class="loc-card reveal">
+        <div class="loc-num">泡 02</div>
+        <h3>Независимости</h3>
+        <p class="loc-address">пр-т Независимости, 89 · у парка Дружбы Народов</p>
+        <div class="loc-info">
+          <div class="loc-info-row"><span>Часы</span><span>Пн–Вс · 09:00 – 23:00</span></div>
+          <div class="loc-info-row"><span>Телефон</span><span>+375 29 611 22 02</span></div>
+          <div class="loc-info-row"><span>Wi-Fi</span><span>awa_prospekt · без пароля</span></div>
+        </div>
+        <a href="#contact" class="loc-btn">
+          Забронировать столик
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+
+      <article class="loc-card reveal">
+        <div class="loc-num">泡 03</div>
+        <h3>Зыбицкая</h3>
+        <p class="loc-address">ул. Зыбицкая, 6 · в двух шагах от Верхнего города</p>
+        <div class="loc-info">
+          <div class="loc-info-row"><span>Часы</span><span>Пн–Чт · 10:00 – 23:00 · Пт–Вс · 10:00 – 01:00</span></div>
+          <div class="loc-info-row"><span>Телефон</span><span>+375 29 611 22 03</span></div>
+          <div class="loc-info-row"><span>Wi-Fi</span><span>awa_zybitskaya · без пароля</span></div>
+        </div>
+        <a href="#contact" class="loc-btn">
+          Забронировать столик
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+
+      <article class="loc-card reveal">
+        <div class="loc-num">泡 04</div>
+        <h3>Dana Mall</h3>
+        <p class="loc-address">пр-т Дзержинского, 126 · ТЦ Dana Mall, 2 этаж</p>
+        <div class="loc-info">
+          <div class="loc-info-row"><span>Часы</span><span>Пн–Вс · 10:00 – 22:00</span></div>
+          <div class="loc-info-row"><span>Телефон</span><span>+375 29 611 22 04</span></div>
+          <div class="loc-info-row"><span>Wi-Fi</span><span>awa_dana · без пароля</span></div>
+        </div>
+        <a href="#contact" class="loc-btn">
+          Забронировать столик
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <div class="section-num">[ 05 ] Вопросы</div>
+      <h2 class="section-title">Часто <em>спрашивают</em></h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">
+          <h3>Что такое бабл-ти и почему он такой дорогой?</h3>
+          <div class="faq-toggle" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+        </button>
+        <div class="faq-a">
+          <p>Бабл-ти — это чай с добавлением молока и тапиоки. В наших напитках — церемониальная матча из Киото, молоко A2 и тапиока ручной работы. Ингредиенты стоят в 8–10 раз дороже промышленных аналогов. Цена 12 BYN — это честная себестоимость плюс время бариста.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">
+          <h3>Можно ли без сахара?</h3>
+          <div class="faq-toggle" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+        </button>
+        <div class="faq-a">
+          <p>Да. 80% нашего меню по умолчанию без добавленного сахара — сладость приходит от натурального чая, молока и тапиоки в карамели из кокосового сахара. В меню есть пометка «0g» и «можно послаще».</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">
+          <h3>Есть ли безлактозные альтернативы?</h3>
+          <div class="faq-toggle" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+        </button>
+        <div class="faq-a">
+          <p>Конечно. Овсяное, кокосовое, миндальное и соевое молоко входят в стоимость — без доплат. Для матча мы рекомендуем овсяное: оно не перебивает вкус церемониального сорта.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">
+          <h3>Можно ли заказать на доставку?</h3>
+          <div class="faq-toggle" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+        </button>
+        <div class="faq-a">
+          <p>Мы принципиально не доставляем. Тапиока живёт 2–3 часа после варки, а слои в стакане должны оставаться слоистыми. Приходите сами — это часть ритуала.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false">
+          <h3>Проводите ли мастер-классы по чайной церемонии?</h3>
+          <div class="faq-toggle" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+        </button>
+        <div class="faq-a">
+          <p>Да. Каждую субботу в 11:00 на Немиге — полуторачасовой мастер-класс по японской чайной церемонии и приготовлению бабл-ти. Стоимость 80 BYN, группа до 6 человек. Запись через форму ниже.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-wrap">
+      <div class="contact-left reveal">
+        <h2>Записаться<br>на <em>церемонию</em></h2>
+        <p>Напишите, если хотите забронировать столик, записаться на мастер-класс, устроить день рождения в 泡 AWA или просто сказать «привет». Отвечаем в течение часа.</p>
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            <div><strong>Telegram</strong><span>@awa_minsk</span></div>
+          </div>
+          <div class="contact-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div><strong>hello@awa.by</strong><span>для сотрудничества</span></div>
+          </div>
+          <div class="contact-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            <div><strong>+375 29 611 22 00</strong><span>единый номер</span></div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" id="contactForm" novalidate>
+        <div class="form-group">
+          <label for="name" class="form-label">Имя</label>
+          <input type="text" id="name" name="name" class="form-input" placeholder="Как вас зовут" required aria-describedby="name-err" />
+          <span class="form-error" id="name-err"></span>
+        </div>
+        <div class="form-group">
+          <label for="phone" class="form-label">Телефон</label>
+          <input type="tel" id="phone" name="phone" class="form-input" placeholder="+375 (__) ___-__-__" required aria-describedby="phone-err" />
+          <span class="form-error" id="phone-err"></span>
+        </div>
+        <div class="form-group">
+          <label for="location" class="form-label">Локация</label>
+          <input type="text" id="location" name="location" class="form-input" placeholder="Немига / Независимости / Зыбицкая / Dana Mall" />
+        </div>
+        <div class="form-group">
+          <label for="message" class="form-label">Сообщение</label>
+          <textarea id="message" name="message" class="form-textarea" placeholder="Расскажите, чего ждёте" rows="3"></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          <span>Отправить</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <div class="form-success" id="formSuccess">Спасибо! Мы свяжемся в течение часа.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="jp">泡</span> AWA</div>
+        <p>Сеть японских бабл-ти баров в Минске. Чай матча, тапиока ручной работы и философия ваби-саби с 2021 года.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Навигация</h4>
+        <ul>
+          <li><a href="#about">Философия</a></li>
+          <li><a href="#menu">Меню</a></li>
+          <li><a href="#process">Процесс</a></li>
+          <li><a href="#locations">Локации</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Соц. сети</h4>
+        <ul>
+          <li><a href="#" aria-label="Instagram">Instagram</a></li>
+          <li><a href="#" aria-label="Telegram">Telegram</a></li>
+          <li><a href="#" aria-label="TikTok">TikTok</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Информация</h4>
+        <ul>
+          <li><a href="#faq">Вопросы и ответы</a></li>
+          <li><a href="#">Работа у нас</a></li>
+          <li><a href="#">Франшиза</a></li>
+          <li><a href="#">Политика</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2021–2026 泡 AWA · Минск</span>
+      <span>一期一会 · Одна встреча, один шанс</span>
+      <span>Сделано с чаем в Беларуси</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ================= PRELOADER ================= */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('done');
+    document.body.style.overflow = '';
+  }, 3200);
+});
+
+/* ================= LENIS ================= */
+const lenis = new Lenis({
+  duration: 1.3,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  orientation: 'vertical',
+  smoothWheel: true,
+  wheelMultiplier: 1,
+  touchMultiplier: 2,
+});
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+
+/* ================= BUBBLES ================= */
+(function spawnBubbles() {
+  const container = document.getElementById('bubbles');
+  const types = ['', 'matcha', 'cream'];
+  const count = window.innerWidth < 768 ? 8 : 18;
+  for (let i = 0; i < count; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble ' + types[i % types.length];
+    const size = 10 + Math.random() * 50;
+    b.style.width = size + 'px';
+    b.style.height = size + 'px';
+    b.style.left = Math.random() * 100 + '%';
+    b.style.animationDuration = (12 + Math.random() * 20) + 's';
+    b.style.animationDelay = (Math.random() * 20) + 's';
+    b.style.opacity = 0.3 + Math.random() * 0.4;
+    container.appendChild(b);
+  }
+})();
+
+/* ================= CUSTOM CURSOR ================= */
+const cursor = document.getElementById('cursor');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', (e) => {
+  mx = e.clientX; my = e.clientY;
+});
+function cursorLoop() {
+  cx += (mx - cx) * 0.18;
+  cy += (my - cy) * 0.18;
+  cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+  requestAnimationFrame(cursorLoop);
+}
+cursorLoop();
+
+document.querySelectorAll('a, button, input, textarea').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('cursor-grow'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-grow'));
+});
+
+/* ================= NAV SCROLL ================= */
+const nav = document.getElementById('nav');
+lenis.on('scroll', ({ scroll }) => {
+  nav.classList.toggle('scrolled', scroll > 40);
+});
+
+/* ================= THEME ================= */
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const saved = localStorage.getItem('awa-theme');
+if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+themeToggle.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  if (cur === 'dark') {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('awa-theme', 'light');
+    themeIcon.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('awa-theme', 'dark');
+    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  }
+});
+
+/* ================= BURGER ================= */
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = burger.classList.toggle('active');
+  mobileMenu.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', open);
+  mobileMenu.setAttribute('aria-hidden', !open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    burger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+    burger.setAttribute('aria-expanded', false);
+    mobileMenu.setAttribute('aria-hidden', true);
+    document.body.style.overflow = '';
+  });
+});
+
+/* ================= REVEAL ================= */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+document.querySelectorAll('.reveal, .stagger').forEach(el => revealObs.observe(el));
+
+/* ================= COUNTERS ================= */
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = +el.getAttribute('data-counter');
+      const suffix = el.querySelector('span') ? el.querySelector('span').outerHTML : '';
+      let cur = 0;
+      const dur = 1800;
+      const start = performance.now();
+      const step = (t) => {
+        const p = Math.min(1, (t - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        cur = Math.floor(eased * target);
+        el.innerHTML = cur + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      counterObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-counter]').forEach(el => counterObs.observe(el));
+
+/* ================= MENU FILTER ================= */
+document.querySelectorAll('.menu-cat').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.menu-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.menu-card').forEach(card => {
+      const match = cat === 'all' || card.dataset.cat === cat;
+      card.style.display = match ? '' : 'none';
+      if (match) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.5s var(--ease), transform 0.5s var(--ease)';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 50);
+      }
+    });
+  });
+});
+
+/* ================= FAQ ================= */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  q.addEventListener('click', () => {
+    const open = item.classList.toggle('open');
+    q.setAttribute('aria-expanded', open);
+  });
+});
+
+/* ================= MAGNETIC BUTTONS ================= */
+document.querySelectorAll('[data-magnetic]').forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+/* ================= FORM ================= */
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let valid = true;
+  const name = form.name, phone = form.phone;
+  document.getElementById('name-err').textContent = '';
+  document.getElementById('phone-err').textContent = '';
+
+  if (name.value.trim().length < 2) {
+    document.getElementById('name-err').textContent = 'Укажите имя, пожалуйста';
+    valid = false;
+  }
+  const phoneClean = phone.value.replace(/\D/g, '');
+  if (phoneClean.length < 9) {
+    document.getElementById('phone-err').textContent = 'Проверьте номер телефона';
+    valid = false;
+  }
+  if (!valid) return;
+  document.getElementById('formSuccess').classList.add('show');
+  form.reset();
+  setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 5000);
+});
+
+/* ================= PHONE MASK ================= */
+const phoneInput = form.phone;
+phoneInput.addEventListener('input', (e) => {
+  let v = e.target.value.replace(/\D/g, '');
+  if (v.startsWith('375')) v = v.slice(3);
+  else if (v.startsWith('80')) v = v.slice(2);
+  v = v.slice(0, 9);
+  let formatted = '+375';
+  if (v.length > 0) formatted += ' (' + v.slice(0, 2);
+  if (v.length >= 2) formatted += ') ' + v.slice(2, 5);
+  if (v.length >= 5) formatted += '-' + v.slice(5, 7);
+  if (v.length >= 7) formatted += '-' + v.slice(7, 9);
+  e.target.value = formatted;
+});
+
+/* ================= SMOOTH ANCHORS ================= */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const href = a.getAttribute('href');
+    if (href === '#' || href.length < 2) return;
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -80, duration: 1.4 });
+    }
+  });
+});
+
+/* ================= PARALLAX (subtle) ================= */
+lenis.on('scroll', ({ scroll }) => {
+  const bubbles = document.getElementById('bubbles');
+  if (bubbles) bubbles.style.transform = `translateY(${scroll * 0.15}px)`;
+});
+
+</script>
+</body>
+</html>
